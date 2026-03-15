@@ -1,0 +1,15 @@
+#
+# Also check the Java system property.
+#
+--- a/src/main/java/org/tinymediamanager/Globals.java
++++ b/src/main/java/org/tinymediamanager/Globals.java
+@@ -151,6 +151,9 @@ public final class Globals {
+     if (Files.exists(Paths.get("/.dockerenv"))) {
+       return true;
+     }
++    else if (Boolean.parseBoolean(System.getProperty("tmm.docker"))) {
++      return true;
++    }
+     return false;
+   }
+ 

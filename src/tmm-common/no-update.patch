@@ -1,0 +1,18 @@
+#
+# Make sure to not check for update when the "tmm.noupdate" Java system
+# property is set.
+#
+--- a/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
++++ b/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
+@@ -654,6 +684,11 @@ public class TmmUIHelper {
+    * @return true/false
+    */
+   public static boolean shouldCheckForUpdate() {
++    // env param -Dtmm.noupdate=true has been set
++    if (Boolean.parseBoolean(System.getProperty("tmm.noupdate"))) {
++      return false;
++    }
++
+     if (ReleaseInfo.isNightly()) {
+       return true;
+     }

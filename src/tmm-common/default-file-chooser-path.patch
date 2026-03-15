@@ -1,0 +1,15 @@
+#
+# Use home directory when no initial path is provided to FatLaf file chooser.
+#
+--- a/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
++++ b/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
+@@ -234,6 +239,9 @@ public class TmmUIHelper {
+       if (StringUtils.isNotBlank(initialPath)) {
+         fc.setCurrentDirectory(new File(initialPath));
+       }
++      else {
++        fc.setCurrentDirectory(new File(System.getProperty("user.home")));
++      }
+       fc.setFileFilter(convertFilter(filter));
+       if (fc.showOpenDialog(null) == SystemFileChooser.APPROVE_OPTION) {
+         File file = fc.getSelectedFile();

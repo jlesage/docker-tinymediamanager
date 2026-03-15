@@ -1,0 +1,22 @@
+#
+# When running in Docker container, hide some menu items used to open different
+# folders.
+#
+--- a/src/main/java/org/tinymediamanager/ui/MainMenuPanel.java
++++ b/src/main/java/org/tinymediamanager/ui/MainMenuPanel.java
+@@ -325,6 +325,15 @@ public class MainMenuPanel extends JPanel {
+       menu.add(new CloseTmmAction());
+     }
+ 
++    // hide some menu items when running in Docker
++    if (Globals.isDocker()) {
++      menu.remove(tmmFolder);
++      menu.remove(contentFolder);
++      menu.remove(dataFolder);
++      menu.remove(logFolder);
++      menu.remove(tmpFolder);
++    }
++
+     return menu;
+   }
+ 

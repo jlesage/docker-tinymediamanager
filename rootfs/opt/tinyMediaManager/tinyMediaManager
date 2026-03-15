@@ -1,0 +1,66 @@
+#!/bin/sh
+
+TMM_APP_DIR=/opt/tinyMediaManager
+TMM_DATA_DIR=/config/tmm
+
+EXTRA_ARGS=
+if [ -f "$TMM_DATA_DIR"/launcher-extra.yml ]; then
+    EXTRA_ARGS="$(yq e '.jvmOpts | join("\n")' "$TMM_DATA_DIR"/launcher-extra.yml)"
+fi
+
+HEADLESS="true"
+CONSOLE_LOG_LEVEL="INFO"
+THEME=Light
+
+num_args=$#
+i=0
+while [ "$i" -lt "$num_args" ]; do
+    case "$1" in
+        launch-gui)
+            HEADLESS="false"
+            CONSOLE_LOG_LEVEL="NONE"
+            ;;
+        --light-theme)
+            THEME=Light
+            ;;
+        --dark-theme)
+            THEME=Dark
+            ;;
+        *)
+            set -- "$@" "$1"
+            ;;
+    esac
+    shift
+    i=$((i + 1))
+done
+
+exec java \
+    -Djava.class.path=$TMM_APP_DIR/tmm.jar:/usr/share/java/jna.jar:$(find $TMM_APP_DIR/lib/ -type f -name "*.jar" | tr '\n' ':') \
+    -add-opens=java.base/sun.net.www.protocol.http=ALL-UNNAMED \
+    -Xms64m \
+    -Xmx512m \
+    -Xss512k \
+    $EXTRA_ARGS \
+    -XX:+IgnoreUnrecognizedVMOptions \
+    -XX:+UseStringDeduplication \
+    -Duser.home=${HOME:-/config} \
+    -Duser.dir=/opt/tinyMediaManager \
+    -Dsun.java2d.renderer=sun.java2d.marlin.MarlinRenderingEngine \
+    -Djava.net.preferIPv4Stack=true \
+    -Dfile.encoding=UTF-8 \
+    -Dsun.jnu.encoding=UTF-8 \
+    -Djna.nosys=false \
+    -Djna.nounpack=true \
+    -Djava.awt.headless=$HEADLESS \
+    -Dawt.useSystemAAFontSettings=on \
+    -Dswing.aatext=true \
+    -Dtmm.consoleloglevel=$CONSOLE_LOG_LEVEL \
+    -Dtmm.noupdate=true \
+    -Dtmm.nobrowser=true \
+    -Dtmm.docker=true \
+    -Dtmm.theme=$THEME \
+    -Dtmm.contentfolder=$TMM_DATA_DIR \
+    org.tinymediamanager.TinyMediaManager \
+    "$@"
+
+# vim:ft=sh:ts=4:sw=4:et:sts=4

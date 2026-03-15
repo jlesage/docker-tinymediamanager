@@ -1,0 +1,6 @@
+#!/bin/sh
+
+DISPLAY_SIZE="$(obxprop --root | grep "^_NET_DESKTOP_GEOMETRY" | cut -d'=' -f2 | tr -d ',' | awk '{print $1; print $2}')"
+X="$(echo "$DISPLAY_SIZE" | head -n1)"
+Y="$(echo "$DISPLAY_SIZE" | tail -n1)"
+exec /usr/bin/ffplay -loglevel quiet -x "$((X / 2))" -y "$((Y / 2))" "$1" 2>/dev/null

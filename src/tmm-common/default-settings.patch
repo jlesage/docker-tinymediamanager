@@ -1,0 +1,23 @@
+#
+# Change some default settings.
+#
+--- a/src/main/java/org/tinymediamanager/core/Settings.java
++++ b/src/main/java/org/tinymediamanager/core/Settings.java
+@@ -103,12 +103,12 @@ public final class Settings extends AbstractSettings {
+ 
+   // language 2 char - saved to config
+   private String                                           language;
+-  private String                                           mediaPlayer                  = "";
+-  private boolean                                          useInternalMediaFramework    = true;
+-  private String                                           mediaFramework               = "";
++  private String                                           mediaPlayer                  = "/usr/bin/ffplay-wrapper";
++  private boolean                                          useInternalMediaFramework    = false;
++  private String                                           mediaFramework               = "/usr/bin/ffmpeg";
+   private Integer                                          ffmpegPercentage             = 50;
+-  private boolean                                          useInternalYtDlp             = true;
+-  private String                                           externalYtDlpPath            = "";
++  private boolean                                          useInternalYtDlp             = false;
++  private String                                           externalYtDlpPath            = "/usr/bin/yt-dlp";
+   private String                                           ytDlpParams                  = "";
+ 
+   private String                                           theme                        = "Light";

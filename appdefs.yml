@@ -1,0 +1,44 @@
+---
+
+#
+# Definitions for tinyMediaManager docker container.
+#
+# This file is used as data source to generate README.md and unRAID template files
+# from Jinja2 templates.
+#
+
+app:
+  id: 41
+  name: tinymediamanager
+  friendly_name: tinyMediaManager
+  gui_type: x11
+  base_os: alpine
+  project:
+    description: |-
+      {{ app.friendly_name }} is a media management tool designed to provide metadata for
+      media centers like Kodi (formerly XBMC), Emby, Jellyfin, and Plex.
+    url: https://www.tinymediamanager.org
+  unraid:
+    support_url: https://forums.unraid.net/topic/68916-support-tinymediamanager/
+    category: "MediaApp:Other"
+  documentation:
+  changelog:
+    - version: 26.03.1
+      date: 2026-03-15
+      changes:
+        - 'Initial release.'
+
+container:
+  storage_permissions: rw
+
+  # Environment variables.
+  environment_variables: []
+
+  # Volumes
+  volumes: []
+
+  # Network ports
+  ports: []
+
+  # Devices
+  devices: []

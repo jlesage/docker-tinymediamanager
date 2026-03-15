@@ -1,0 +1,46 @@
+#
+# Instead of opening URLs in a browser, display the link in a message dialog.
+#
+--- a/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
++++ b/src/main/java/org/tinymediamanager/ui/TmmUIHelper.java
+@@ -44,6 +44,11 @@ import javax.swing.ToolTipManager;
+ import javax.swing.UIManager;
+ import javax.swing.filechooser.FileNameExtensionFilter;
+ import javax.swing.plaf.FontUIResource;
++import javax.swing.JTextPane;
++import javax.swing.JEditorPane;
++import javax.swing.event.HyperlinkEvent;
++import java.awt.Toolkit;
++import java.awt.datatransfer.StringSelection;
+ 
+ import org.apache.commons.io.FilenameUtils;
+ import org.apache.commons.lang3.ArrayUtils;
+@@ -475,6 +483,28 @@ public class TmmUIHelper {
+       return;
+     }
+ 
++    if (Boolean.parseBoolean(System.getProperty("tmm.nobrowser"))) {
++      String message = "<html>Please visit: <a href='" + url + "'>" + url + "</a><br/>" +
++        "<p><i>(Click the link to copy URL to the clipboard)</i></p></html>";
++      JTextPane textPane = new JTextPane();
++      textPane.setContentType("text/html");
++      textPane.setText(message);
++      textPane.setEditable(false);
++      textPane.setOpaque(false);
++      textPane.setCaretPosition(0);
++      textPane.setHighlighter(null);
++      textPane.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
++      textPane.addHyperlinkListener(e -> {
++        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
++          // Copy the URL to the clipboard
++          StringSelection selection = new StringSelection(url);
++          Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
++        }
++      });
++      JOptionPane.showMessageDialog(MainWindow.getInstance(), textPane, "Open URL", JOptionPane.INFORMATION_MESSAGE);
++      return;
++    }
++
+     // handle urls
+     if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+       Desktop.getDesktop().browse(new URI(url));
