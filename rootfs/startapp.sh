@@ -1,6 +1,5 @@
 #!/bin/sh
 
-export HOME=/config
 cd /config
 exec /opt/tinyMediaManager/tinyMediaManager "$@"
 
