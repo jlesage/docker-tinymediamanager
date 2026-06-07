@@ -62,7 +62,7 @@ RUN /build/build.sh "$FLATLAF_VERSION" "$FLATLAF_URL"
 RUN xx-verify  /tmp/flatlaf-install/*.so
 
 # Pull base image.
-FROM jlesage/baseimage-gui:alpine-3.23-v4.12.3
+FROM jlesage/baseimage-gui:alpine-3.23-v4.12.4
 
 ARG DOCKER_IMAGE_VERSION
 
