@@ -23,7 +23,7 @@ fi
 # Compile tinyMediaManager.
 #
 
-DIST_FILE="/tmp/dist/tinyMediaManager-${TINYMEDIAMANAGER_VERSION}-linux-$(xx-info arch).tar.xz"
+DIST_FILE="/tmp/dist/tinyMediaManager-${TINYMEDIAMANAGER_VERSION}-GIT-linux-$(xx-info arch).tar.gz"
 
 if [ ! -f "$DIST_FILE" ]; then
     log "ERROR: $DIST_FILE not found."
