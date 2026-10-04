@@ -23,6 +23,10 @@ app:
     category: "MediaApp:Other"
   documentation:
   changelog:
+    - version: 26.10.1
+      date: 2026-10-04
+      changes:
+        - 'Updated tinyMediaManager to version 5.3.4.'
     - version: 26.09.1
       date: 2026-09-22
       changes:
